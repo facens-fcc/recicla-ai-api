@@ -1,5 +1,5 @@
 package com.example.recicla_ai.services;
 
-public class CompanyService {
+public interface CompanyService {
     
 }
