@@ -2,6 +2,7 @@ package com.example.recicla_ai.models;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,16 +25,21 @@ public class Company {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   private String name;
-  private Boolean whatsapp;
+  private boolean whatsapp;
   private String phone;
   private String address;
   @Column(name = "zip_code")
   private String zipCode;
-  private Double lat;
-  private Double lng;
-  @ManyToMany(mappedBy = "companies")
+  private double lat;
+  private double lng;
+  @ManyToMany(mappedBy = "companies", cascade = CascadeType.ALL)
   private List<Category> categories;
-  private Boolean payment;
+  private boolean payment;
   @Column(name = "residential_collection")
-  private Boolean residentialCollection;
+  private boolean residentialCollection;
+
+  @Override
+    public String toString() {
+      return "Company [id=" + id + ", name=" + name + ", whatsapp=" + whatsapp + ", phone=" + phone + ", address=" + address + ", zipCode=" + zipCode + ", lat=" + lat + ", lng=" + lng + ", categories=" + categories + ", payment=" + payment + ", residentialCollection=" + residentialCollection + "]";
+    }
 }
