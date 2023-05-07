@@ -27,8 +27,13 @@ public class Category {
     private String icon;
     @ManyToMany
     @JoinTable(
-        name = "company_categories",
+        name = "company_category",
         joinColumns = @JoinColumn(name = "category_id"),
         inverseJoinColumns = @JoinColumn(name = "company_id"))
         private List<Company> companies;    
+
+    @Override
+    public String toString() {
+    return "Category [id=" + id + ", name=" + name + ", icon=" + icon + "]";
+    }
 }
