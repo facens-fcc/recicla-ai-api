@@ -1,5 +1,7 @@
 package com.example.recicla_ai.dtos;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,4 +15,5 @@ public class CategoryDTO {
   private Long id;
   private String name;
   private String icon;
+  private List<Long> companyIds;
 }
