@@ -10,6 +10,8 @@ import com.example.recicla_ai.repositories.CategoryRepository;
 import com.example.recicla_ai.repositories.CompanyRepository;
 
 import jakarta.transaction.Transactional;
+import java.util.List;
+import java.util.ArrayList;
 import lombok.RequiredArgsConstructor;
 
 
@@ -34,20 +36,21 @@ public class CompanyServiceImpl implements CompanyService {
         company.setPayment(companyDTO.isPayment());
         company.setResidentialCollection(companyDTO.isResidentialCollection());
 
-        Company savedCompany = companyRepository.save(company);
-
+        List<Category> categories = new ArrayList<>();
         if (companyDTO.getCategoryIds() != null && !companyDTO.getCategoryIds().isEmpty()) {
             for (Long categoryId : companyDTO.getCategoryIds()) {
                 Category category = categoryRepository.findById(categoryId)
                     .orElseThrow(() -> new BusinessRuleException("Category not found with ID: " + categoryId));
-                category.getCompanies().add(savedCompany);
-                categoryRepository.save(category);
+                categories.add(category);
+                category.getCompanies().add(company);
             }
         }
-        return savedCompany;
 
-        
-        // List<Category> categories = new ArrayList<>();
+        company.setCategories(categories);
+
+        return companyRepository.save(company);
+
+
         // for (Long categoryId : companyDTO.getCategoryIds()) {
         //     Category category = categoryRepository.findById(categoryId)
         //         .orElseThrow(() -> new BusinessRuleException("Category not found with ID: " + categoryId));
