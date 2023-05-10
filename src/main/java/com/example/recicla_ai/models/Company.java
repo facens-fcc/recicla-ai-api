@@ -1,5 +1,6 @@
 package com.example.recicla_ai.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -33,7 +34,7 @@ public class Company {
   private double lat;
   private double lng;
   @ManyToMany(mappedBy = "companies", cascade = CascadeType.ALL)
-  private List<Category> categories;
+  private List<Category> categories = new ArrayList<>();
   private boolean payment;
   @Column(name = "residential_collection")
   private boolean residentialCollection;
