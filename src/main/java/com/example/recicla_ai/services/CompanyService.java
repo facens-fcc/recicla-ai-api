@@ -1,9 +1,10 @@
 package com.example.recicla_ai.services;
 
 import com.example.recicla_ai.models.Company;
+import com.example.recicla_ai.dtos.CompanyDTO;
 
 public interface CompanyService {
-  Company create(Company company);
+  Company create(CompanyDTO companyDTO);
   void delete(Long id);
   void update(Long id, Company company);    
 }
