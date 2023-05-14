@@ -11,7 +11,6 @@ import com.example.recicla_ai.repositories.CompanyRepository;
 
 import jakarta.transaction.Transactional;
 import java.util.List;
-import java.util.ArrayList;
 import lombok.RequiredArgsConstructor;
 
 
@@ -36,29 +35,26 @@ public class CompanyServiceImpl implements CompanyService {
         company.setPayment(companyDTO.isPayment());
         company.setResidentialCollection(companyDTO.isResidentialCollection());
 
-        List<Category> categories = new ArrayList<>();
-        if (companyDTO.getCategoryIds() != null && !companyDTO.getCategoryIds().isEmpty()) {
-            for (Long categoryId : companyDTO.getCategoryIds()) {
-                Category category = categoryRepository.findById(categoryId)
-                    .orElseThrow(() -> new BusinessRuleException("Category not found with ID: " + categoryId));
-                categories.add(category);
-                category.getCompanies().add(company);
-            }
+        List<Category> categories = categoryRepository.findAllById(companyDTO.getCategoryIds());
+
+        if (categories.isEmpty()) {
+            throw new BusinessRuleException("Categoria não encontrada");
         }
-
+        
         company.setCategories(categories);
-
+        
         return companyRepository.save(company);
+    }
 
+    @Override
+    @Transactional
+    public void delete(Long id) {
+        companyRepository.deleteById(id);
+    }
 
-        // for (Long categoryId : companyDTO.getCategoryIds()) {
-        //     Category category = categoryRepository.findById(categoryId)
-        //         .orElseThrow(() -> new BusinessRuleException("Category not found with ID: " + categoryId));
-        //     categories.add(category);
-        // }
-
-        // company.setCategories(categories);
-
-        // return companyRepository.save(company);
+    @Override
+    @Transactional
+    public List<CompanyDTO> getAll() {
+        return companyRepository.findAll();
     }
 }

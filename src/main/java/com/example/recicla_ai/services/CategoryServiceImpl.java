@@ -1,6 +1,6 @@
 package com.example.recicla_ai.services;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
@@ -22,8 +22,20 @@ public class CategoryServiceImpl implements CategoryService {
     Category category = new Category();
     category.setName(categoryDTO.getName());
     category.setIcon(categoryDTO.getIcon());
-    category.setCompanies(new ArrayList<>());
+    // category.setCompanies(new ArrayList<>());
 
     return categoryRepository.save(category);
   }
+
+  @Override
+  @Transactional
+  public void delete(Long id) {
+    categoryRepository.deleteById(id);
+  }
+
+  @Override
+    @Transactional
+    public List<CategoryDTO> getAll() {
+        return categoryRepository.findAll();
+    }
 }
