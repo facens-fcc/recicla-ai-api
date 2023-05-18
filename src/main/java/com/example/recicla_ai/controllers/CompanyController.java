@@ -1,15 +1,20 @@
 package com.example.recicla_ai.controllers;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.recicla_ai.dtos.CompanyDTO;
+import com.example.recicla_ai.models.Category;
 import com.example.recicla_ai.models.Company;
 import com.example.recicla_ai.services.CompanyService;
 
@@ -33,4 +38,14 @@ public class CompanyController {
     public void delete(@PathVariable Long id) {
         companyService.delete(id);
     } 
+
+    @GetMapping
+    public List<Company> getAll() {
+        return companyService.getAll();
+    }
+
+    @PutMapping("{id}")
+    public void update(@PathVariable Long id, @RequestBody CompanyDTO companyDTO) {
+        companyService.update(id, companyDTO);
+    }
 }

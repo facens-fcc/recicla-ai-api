@@ -8,6 +8,6 @@ import com.example.recicla_ai.models.Category;
 public interface CategoryService {
     Category create(CategoryDTO categoryDTO);
     void delete(Long id);
-    // void update(Long id, CategoryDTO categoryDTO);
-    List<CategoryDTO> getAll();
+    void update(Long id, CategoryDTO categoryDTO);
+    List<Category> getAll();
 }

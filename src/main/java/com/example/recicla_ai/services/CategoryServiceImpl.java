@@ -34,8 +34,19 @@ public class CategoryServiceImpl implements CategoryService {
   }
 
   @Override
-    @Transactional
-    public List<CategoryDTO> getAll() {
-        return categoryRepository.findAll();
-    }
+  @Transactional
+  public List<Category> getAll() {
+      return categoryRepository.findAll();
+  }
+  
+  @Override
+  @Transactional
+  public void update(Long id, CategoryDTO categoryDTO) {
+    Category category = categoryRepository.findById(id).orElseThrow(() -> new RuntimeException("Categoria não encontrada"));
+
+    category.setName(categoryDTO.getName());
+    category.setIcon(categoryDTO.getIcon());
+
+    categoryRepository.save(category);
+  }
 }

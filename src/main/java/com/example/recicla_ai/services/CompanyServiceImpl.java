@@ -54,7 +54,33 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     @Transactional
-    public List<CompanyDTO> getAll() {
+    public List<Company> getAll() {
         return companyRepository.findAll();
+    }
+
+    @Override
+    @Transactional
+    public void update(Long id, CompanyDTO companyDTO) {
+        Company company = companyRepository.findById(id).orElseThrow(() -> new BusinessRuleException("Empresa não encontrada"));
+
+        company.setName(companyDTO.getName());
+        company.setWhatsapp(companyDTO.isWhatsapp());
+        company.setPhone(companyDTO.getPhone());
+        company.setAddress(companyDTO.getAddress());
+        company.setZipCode(companyDTO.getZipCode());
+        company.setLat(companyDTO.getLat());
+        company.setLng(companyDTO.getLng());
+        company.setPayment(companyDTO.isPayment());
+        company.setResidentialCollection(companyDTO.isResidentialCollection());
+
+        List<Category> categories = categoryRepository.findAllById(companyDTO.getCategoryIds());
+
+        if (categories.isEmpty()) {
+            throw new BusinessRuleException("Categoria não encontrada");
+        }
+        
+        company.setCategories(categories);
+        
+        companyRepository.save(company);
     }
 }
