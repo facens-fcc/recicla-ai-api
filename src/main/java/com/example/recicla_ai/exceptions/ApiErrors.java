@@ -5,7 +5,7 @@ import java.util.List;
 
 import lombok.Getter;
 
-public class ApiErrors {
+public class ApiErrors extends RuntimeException {
 
     @Getter
     private List<String> errors;

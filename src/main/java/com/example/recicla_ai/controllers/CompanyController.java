@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.recicla_ai.dtos.CompanyDTO;
-import com.example.recicla_ai.models.Category;
+import com.example.recicla_ai.dtos.SearchDataDTO;
 import com.example.recicla_ai.models.Company;
 import com.example.recicla_ai.services.CompanyService;
 
@@ -47,5 +47,10 @@ public class CompanyController {
     @PutMapping("{id}")
     public void update(@PathVariable Long id, @RequestBody CompanyDTO companyDTO) {
         companyService.update(id, companyDTO);
+    }
+
+    @PostMapping("/search")
+    public List<CompanyDTO> searchCompanies(@RequestBody SearchDataDTO SearchData) {
+        return companyService.searchCompanies(SearchData);
     }
 }

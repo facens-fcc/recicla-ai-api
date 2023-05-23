@@ -23,4 +23,5 @@ public class CompanyDTO {
   private boolean payment;
   private boolean residentialCollection;
   private List<Long> categoryIds;
+  private double distance;
 }
