@@ -25,7 +25,7 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
+    private String label;
     private String icon;
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
@@ -37,6 +37,6 @@ public class Category {
 
     @Override
     public String toString() {
-    return "Category [id=" + id + ", name=" + name + ", icon=" + icon + "]";
+    return "Category [id=" + id + ", label=" + label + ", icon=" + icon + "]";
     }
 }

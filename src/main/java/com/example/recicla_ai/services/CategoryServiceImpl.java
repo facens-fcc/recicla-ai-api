@@ -20,7 +20,7 @@ public class CategoryServiceImpl implements CategoryService {
   @Transactional
   public Category create(CategoryDTO categoryDTO) {
     Category category = new Category();
-    category.setName(categoryDTO.getName());
+    category.setLabel(categoryDTO.getLabel());
     category.setIcon(categoryDTO.getIcon());
     // category.setCompanies(new ArrayList<>());
 
@@ -44,7 +44,7 @@ public class CategoryServiceImpl implements CategoryService {
   public void update(Long id, CategoryDTO categoryDTO) {
     Category category = categoryRepository.findById(id).orElseThrow(() -> new RuntimeException("Categoria não encontrada"));
 
-    category.setName(categoryDTO.getName());
+    category.setLabel(categoryDTO.getLabel());
     category.setIcon(categoryDTO.getIcon());
 
     categoryRepository.save(category);

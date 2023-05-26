@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class CategoryDTO {
   private Long id;
-  private String name;
+  private String label;
   private String icon;
   private List<Long> companyIds;
 }
