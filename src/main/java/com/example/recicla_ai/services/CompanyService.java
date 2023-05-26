@@ -11,5 +11,5 @@ public interface CompanyService {
   void delete(Long id);
   void update(Long id, CompanyDTO companyDTO);    
   List<Company> getAll();
-  public List<CompanyDTO> searchCompanies(SearchDataDTO searchData);
+  // public List<CompanyDTO> searchCompanies(SearchDataDTO searchData);
 }

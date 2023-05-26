@@ -43,8 +43,14 @@ public class CompanyServiceImpl implements CompanyService {
         Company company = new Company();
         company.setName(companyDTO.getName());
         company.setWhatsapp(companyDTO.isWhatsapp());
-        company.setPhone(companyDTO.getPhone());
-        company.setAddress(companyDTO.getAddress());
+        company.setPhoneDdi(companyDTO.getPhoneDdi());
+        company.setPhoneDdd(companyDTO.getPhoneDdd());
+        company.setPhoneNumber(companyDTO.getPhoneNumber());
+        company.setAddressNeighborhood(companyDTO.getAddressNeighborhood());
+        company.setAddressStreet(companyDTO.getAddressStreet());
+        company.setAddressNumber(companyDTO.getAddressNumber());
+        company.setState(companyDTO.getState());
+        company.setCity(companyDTO.getCity());
         company.setZipCode(companyDTO.getZipCode());
         company.setLat(companyDTO.getLat());
         company.setLng(companyDTO.getLng());
@@ -81,8 +87,14 @@ public class CompanyServiceImpl implements CompanyService {
 
         company.setName(companyDTO.getName());
         company.setWhatsapp(companyDTO.isWhatsapp());
-        company.setPhone(companyDTO.getPhone());
-        company.setAddress(companyDTO.getAddress());
+        company.setPhoneDdi(companyDTO.getPhoneDdi());
+        company.setPhoneDdd(companyDTO.getPhoneDdd());
+        company.setPhoneNumber(companyDTO.getPhoneNumber());
+        company.setAddressNeighborhood(companyDTO.getAddressNeighborhood());
+        company.setAddressStreet(companyDTO.getAddressStreet());
+        company.setAddressNumber(companyDTO.getAddressNumber());
+        company.setState(companyDTO.getState());
+        company.setCity(companyDTO.getCity());
         company.setZipCode(companyDTO.getZipCode());
         company.setLat(companyDTO.getLat());
         company.setLng(companyDTO.getLng());
@@ -154,26 +166,26 @@ public class CompanyServiceImpl implements CompanyService {
         }
     }
 
-    public List<CompanyDTO> searchCompanies(SearchDataDTO searchData) {
-        String zipcode = searchData.getZipCode();
-        List<Long> categoryIds = searchData.getCategoryIds();
+//     public List<CompanyDTO> searchCompanies(SearchDataDTO searchData) {
+//         String zipcode = searchData.getZipCode();
+//         List<Long> categoryIds = searchData.getCategoryIds();
     
-        List<Company> companies = companyRepository.findAll();
+//         List<Company> companies = companyRepository.findAll();
     
-        List<CompanyDTO> filteredCompanies = companies.stream()
-                .filter(company -> company.getCategories().stream()
-                        .anyMatch(category -> categoryIds.contains(category.getId())))
-                .map(company -> {
-                    double distance = calculateDistance(zipcode, company.getZipCode());
-                    return new CompanyDTO(company.getId(), company.getName(), company.isWhatsapp(),
-                            company.getPhone(), company.getAddress(), company.getZipCode(),
-                            company.getLat(), company.getLng(), company.isPayment(),
-                            company.isResidentialCollection(), categoryIds, distance);
-                })
-                .collect(Collectors.toList());
+//         List<CompanyDTO> filteredCompanies = companies.stream()
+//                 .filter(company -> company.getCategories().stream()
+//                         .anyMatch(category -> categoryIds.contains(category.getId())))
+//                 .map(company -> {
+//                     double distance = calculateDistance(zipcode, company.getZipCode());
+//                     return new CompanyDTO(company.getId(), company.getName(), company.isWhatsapp(),
+//                             company.getPhoneDdi(), company.getPhoneDdd(), company.getPhoneNumber(), company.getAddress(), company.getZipCode(),
+//                             company.getLat(), company.getLng(), company.isPayment(),
+//                             company.isResidentialCollection(), categoryIds, distance);
+//                 })
+//                 .collect(Collectors.toList());
     
-        filteredCompanies.sort(Comparator.comparingDouble(CompanyDTO::getDistance));
+//         filteredCompanies.sort(Comparator.comparingDouble(CompanyDTO::getDistance));
     
-        return filteredCompanies;
-    }
+//         return filteredCompanies;
+//     }
 }

@@ -27,8 +27,14 @@ public class Company {
   private Long id;
   private String name;
   private boolean whatsapp;
-  private String phone;
-  private String address;
+  private String phoneDdi;
+  private String phoneDdd;
+  private String phoneNumber;
+  private String addressStreet;
+  private String addressNumber;
+  private String addressNeighborhood;
+  private String city;
+  private String state;
   @Column(name = "zip_code")
   private String zipCode;
   private double lat;
@@ -41,6 +47,10 @@ public class Company {
 
   @Override
     public String toString() {
-      return "Company [id=" + id + ", name=" + name + ", whatsapp=" + whatsapp + ", phone=" + phone + ", address=" + address + ", zipCode=" + zipCode + ", lat=" + lat + ", lng=" + lng + ", categories=" + categories + ", payment=" + payment + ", residentialCollection=" + residentialCollection + "]";
+        return "Company [id=" + id + ", name=" + name + ", whatsapp=" + whatsapp + ", phoneDdi=" + phoneDdi
+                + ", phoneDdd=" + phoneDdd + ", phoneNumber=" + phoneNumber + ", addressStreet=" + addressStreet
+                + ", addressNumber=" + addressNumber + ", addressNeighborhood=" + addressNeighborhood + ", city=" + city
+                + ", state=" + state + ", zipCode=" + zipCode + ", lat=" + lat + ", lng=" + lng + ", categories="
+                + categories + ", payment=" + payment + ", residentialCollection=" + residentialCollection + "]";
     }
 }

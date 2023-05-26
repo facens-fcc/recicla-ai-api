@@ -15,8 +15,15 @@ public class CompanyDTO {
   private Long id;
   private String name;
   private boolean whatsapp;
-  private String phone;
-  private String address;
+
+  private String phoneDdi;
+  private String phoneDdd;
+  private String phoneNumber;
+  private String addressStreet;
+  private String addressNumber;
+  private String addressNeighborhood;
+  private String city;
+  private String state;
   private String zipCode;
   private double lat;
   private double lng;

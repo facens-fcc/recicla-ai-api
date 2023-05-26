@@ -51,8 +51,8 @@ public class CompanyController {
         companyService.update(id, companyDTO);
     }
 
-    @PostMapping("/search")
-    public List<CompanyDTO> searchCompanies(@RequestBody SearchDataDTO SearchData) {
-        return companyService.searchCompanies(SearchData);
-    }
+    // @PostMapping("/search")
+    // public List<CompanyDTO> searchCompanies(@RequestBody SearchDataDTO SearchData) {
+    //     return companyService.searchCompanies(SearchData);
+    // }
 }
