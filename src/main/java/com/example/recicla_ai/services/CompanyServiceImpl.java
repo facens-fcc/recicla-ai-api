@@ -127,7 +127,7 @@ public class CompanyServiceImpl implements CompanyService {
             String encodedZipcode = URLEncoder.encode(zipcode, StandardCharsets.UTF_8);
             URI uri;
             try {
-                uri = new URI(apiUrl + "?address=" + encodedZipcode + "&key=" + System.getenv("GOOGLE_MAPS_API_KEY"));
+                uri = new URI(apiUrl + "?address=" + encodedZipcode + "&key=AIzaSyCDVRS2y-aVIXVmiyXnrCfg9ZiDBEiHQJM");
             } catch (URISyntaxException e) {
                 throw new ApiErrors("Invalid URI syntax");
             }
