@@ -3,6 +3,7 @@ package com.example.recicla_ai.controllers;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
+    import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +18,7 @@ import com.example.recicla_ai.dtos.CategoryDTO;
 import com.example.recicla_ai.models.Category;
 import com.example.recicla_ai.services.CategoryService;
 
+@CrossOrigin(origins = "http://localhost:5173/")
 @RestController
 @RequestMapping("/api/category")
 public class CategoryController {
