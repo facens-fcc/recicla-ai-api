@@ -15,7 +15,6 @@ public class CompanyDTO {
   private Long id;
   private String name;
   private boolean whatsapp;
-
   private String phoneDdi;
   private String phoneDdd;
   private String phoneNumber;

@@ -2,9 +2,12 @@ package com.example.recicla_ai;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Set;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -13,6 +16,7 @@ import org.springframework.context.annotation.Bean;
 
 import com.example.recicla_ai.dtos.CategoryDTO;
 import com.example.recicla_ai.dtos.CompanyDTO;
+import com.example.recicla_ai.models.Category;
 import com.example.recicla_ai.repositories.CategoryRepository;
 import com.example.recicla_ai.repositories.CompanyRepository;
 import com.example.recicla_ai.services.CategoryService;
@@ -37,7 +41,7 @@ public class ReciclaAiApplication {
 			}
 
 			if (companyRepository.count() == 0) {
-				List <CompanyDTO> companyDTOs = createDefaultCompanies();
+				List<CompanyDTO> companyDTOs = createDefaultCompanies();
 
 				for (CompanyDTO companyDTO: companyDTOs) {
 					companyService.create(companyDTO);
@@ -141,7 +145,7 @@ public class ReciclaAiApplication {
 			.lng(-47.43692)
 			.payment(false)
 			.residentialCollection(true)
-			.categoryIds(new HashSet<>(Arrays.asList(1L, 2L, 3L)))
+			.categoryIds(new HashSet<>(Arrays.asList(1L, 2L, 3L, 4L)))
 			.build());
 
 		return companyDTOs;
