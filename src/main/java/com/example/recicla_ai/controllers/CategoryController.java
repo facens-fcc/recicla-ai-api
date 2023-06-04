@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.recicla_ai.dtos.CategoryDTO;
+import com.example.recicla_ai.dtos.CategoryDataDTO;
+import com.example.recicla_ai.dtos.SearchDataDTO;
 import com.example.recicla_ai.models.Category;
 import com.example.recicla_ai.services.CategoryService;
 
@@ -43,6 +45,11 @@ public class CategoryController {
   @GetMapping
   public List<Category> getAll() {
     return categoryService.getAll();
+  }
+
+  @GetMapping("/companies")
+  public List<CategoryDataDTO> getByCategoryDataDTO(@RequestBody SearchDataDTO searchDataDTO) {
+    return categoryService.getCompaniesByCategoryDataDTO(searchDataDTO.getCategoryIds());
   }
 
   @PutMapping("{id}")
