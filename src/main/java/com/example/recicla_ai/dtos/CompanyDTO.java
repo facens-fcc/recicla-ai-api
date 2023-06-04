@@ -1,6 +1,6 @@
 package com.example.recicla_ai.dtos;
 
-import java.util.List;
+import java.util.Set;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,6 +29,6 @@ public class CompanyDTO {
   private double lng;
   private boolean payment;
   private boolean residentialCollection;
-  private List<Long> categoryIds;
+  private Set<Long> categoryIds;
   private double distance;
 }
