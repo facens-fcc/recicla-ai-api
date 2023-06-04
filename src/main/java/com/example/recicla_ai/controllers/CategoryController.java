@@ -20,7 +20,7 @@ import com.example.recicla_ai.services.CategoryService;
 
 @CrossOrigin(origins = "http://localhost:5173/")
 @RestController
-@RequestMapping("/api/category")
+@RequestMapping("/categories")
 public class CategoryController {
   private CategoryService categoryService;
   

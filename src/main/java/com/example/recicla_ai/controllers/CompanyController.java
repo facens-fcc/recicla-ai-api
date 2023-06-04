@@ -15,13 +15,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.recicla_ai.dtos.CompanyDTO;
-import com.example.recicla_ai.dtos.SearchDataDTO;
+import com.example.recicla_ai.dtos.CompanyDataDTO;
 import com.example.recicla_ai.models.Company;
 import com.example.recicla_ai.services.CompanyService;
 
 @CrossOrigin(origins = "http://localhost:5173/")
 @RestController
-@RequestMapping("/api/company")
+@RequestMapping("/companies")
 public class CompanyController {    
     private CompanyService companyService;
   
@@ -42,7 +42,7 @@ public class CompanyController {
     } 
 
     @GetMapping
-    public List<Company> getAll() {
+    public List<CompanyDataDTO> getAll() {
         return companyService.getAll();
     }
 
