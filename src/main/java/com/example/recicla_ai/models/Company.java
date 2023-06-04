@@ -1,14 +1,17 @@
 package com.example.recicla_ai.models;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
@@ -39,18 +42,24 @@ public class Company {
   private String zipCode;
   private double lat;
   private double lng;
-  @ManyToMany(mappedBy = "companies", cascade = CascadeType.ALL)
-  private List<Category> categories = new ArrayList<>();
   private boolean payment;
   @Column(name = "residential_collection")
   private boolean residentialCollection;
+  @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+  @JoinTable(
+      name = "company_categories",
+      joinColumns = @JoinColumn(name = "company_id", referencedColumnName = "id"),
+      inverseJoinColumns = @JoinColumn(name = "category_id", referencedColumnName = "id")
+  )
+  private Set<Category> categories = new HashSet<>();
 
-  @Override
-    public String toString() {
-        return "Company [id=" + id + ", name=" + name + ", whatsapp=" + whatsapp + ", phoneDdi=" + phoneDdi
-                + ", phoneDdd=" + phoneDdd + ", phoneNumber=" + phoneNumber + ", addressStreet=" + addressStreet
-                + ", addressNumber=" + addressNumber + ", addressNeighborhood=" + addressNeighborhood + ", city=" + city
-                + ", state=" + state + ", zipCode=" + zipCode + ", lat=" + lat + ", lng=" + lng + ", categories="
-                + categories + ", payment=" + payment + ", residentialCollection=" + residentialCollection + "]";
-    }
+  // public void addCategory(Category category) {
+  //   categories.add(category);
+  //   category.getCompanies().add(this);
+  // }
+
+  // public void removeCategory(Category category) {
+  //     categories.remove(category);
+  //     category.getCompanies().remove(this);
+  // }
 }
