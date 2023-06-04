@@ -16,6 +16,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -23,6 +24,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Table(name = "companies")
 public class Company {
   @Id
@@ -51,15 +53,5 @@ public class Company {
       joinColumns = @JoinColumn(name = "company_id", referencedColumnName = "id"),
       inverseJoinColumns = @JoinColumn(name = "category_id", referencedColumnName = "id")
   )
-  private Set<Category> categories = new HashSet<>();
-
-  // public void addCategory(Category category) {
-  //   categories.add(category);
-  //   category.getCompanies().add(this);
-  // }
-
-  // public void removeCategory(Category category) {
-  //     categories.remove(category);
-  //     category.getCompanies().remove(this);
-  // }
+  private Set<Category> categories;
 }
