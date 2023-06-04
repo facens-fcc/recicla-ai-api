@@ -1,5 +1,6 @@
 package com.example.recicla_ai;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -121,7 +122,7 @@ public class ReciclaAiApplication {
 			.lng(-47.47388)
 			.payment(false)
 			.residentialCollection(true)
-			.categoryIds(Arrays.asList(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L))
+			.categoryIds(new HashSet<>(Arrays.asList(1L, 2L)))
 			.build());
 
 		companyDTOs.add(CompanyDTO.builder()
@@ -140,7 +141,7 @@ public class ReciclaAiApplication {
 			.lng(-47.43692)
 			.payment(false)
 			.residentialCollection(true)
-			.categoryIds(Arrays.asList(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L, 10L))
+			.categoryIds(new HashSet<>(Arrays.asList(1L, 2L, 3L)))
 			.build());
 
 		return companyDTOs;
