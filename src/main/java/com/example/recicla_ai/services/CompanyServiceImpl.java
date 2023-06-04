@@ -13,6 +13,7 @@ import com.example.recicla_ai.repositories.CompanyRepository;
 
 import jakarta.transaction.Transactional;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -70,15 +71,15 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     @Transactional
     public List<CompanyDataDTO> getAll() {
-        return companyRepository.findAll().stream().map(company -> {
-            Set<CategoryDTO> categoryDTOs = company.getCategories().stream().map(category -> {
+        return companyRepository.findAll().stream().map((Company company) -> {
+            Set<CategoryDTO> categoryDTOs = company.getCategories().stream().map((Category category) -> {
                 return CategoryDTO.builder()
                         .id(category.getId())
                         .label(category.getLabel())
                         .icon(category.getIcon())
                         .build();
             }).collect(Collectors.toSet());
-    
+        
             return CompanyDataDTO.builder()
                     .id(company.getId())
                     .name(company.getName())
