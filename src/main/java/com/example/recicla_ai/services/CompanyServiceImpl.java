@@ -2,29 +2,21 @@ package com.example.recicla_ai.services;
 
 import org.springframework.stereotype.Service;
 
+import com.example.recicla_ai.dtos.CategoryDTO;
 import com.example.recicla_ai.dtos.CompanyDTO;
-import com.example.recicla_ai.dtos.SearchDataDTO;
-import com.example.recicla_ai.exceptions.ApiErrors;
+import com.example.recicla_ai.dtos.CompanyDataDTO;
 import com.example.recicla_ai.exceptions.BusinessRuleException;
 import com.example.recicla_ai.models.Category;
 import com.example.recicla_ai.models.Company;
 import com.example.recicla_ai.repositories.CategoryRepository;
 import com.example.recicla_ai.repositories.CompanyRepository;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 import jakarta.transaction.Transactional;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import lombok.RequiredArgsConstructor;
@@ -57,14 +49,15 @@ public class CompanyServiceImpl implements CompanyService {
         company.setPayment(companyDTO.isPayment());
         company.setResidentialCollection(companyDTO.isResidentialCollection());
 
-        List<Category> categories = categoryRepository.findAllById(companyDTO.getCategoryIds());
+        List<Category> categoryList = categoryRepository.findAllById(companyDTO.getCategoryIds());
+        Set<Category> categories = new HashSet<>(categoryList);
 
         if (categories.isEmpty()) {
             throw new BusinessRuleException("Categoria não encontrada");
         }
-        
+
         company.setCategories(categories);
-        
+    
         return companyRepository.save(company);
     }
 
@@ -76,8 +69,42 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     @Transactional
-    public List<Company> getAll() {
-        return companyRepository.findAll();
+    public List<CompanyDataDTO> getAll() {
+        return companyRepository.findAll().stream().map(company -> {
+            Set<CategoryDTO> categoryDTOs = company.getCategories().stream().map(category -> {
+                return CategoryDTO.builder()
+                        .id(category.getId())
+                        .label(category.getLabel())
+                        .icon(category.getIcon())
+                        .build();
+            }).collect(Collectors.toSet());
+    
+            return CompanyDataDTO.builder()
+                    .id(company.getId())
+                    .name(company.getName())
+                    .whatsapp(company.isWhatsapp())
+                    .phoneDdi(company.getPhoneDdi())
+                    .phoneDdd(company.getPhoneDdd())
+                    .phoneNumber(company.getPhoneNumber())
+                    .addressStreet(company.getAddressStreet())
+                    .addressNumber(company.getAddressNumber())
+                    .addressNeighborhood(company.getAddressNeighborhood())
+                    .city(company.getCity())
+                    .state(company.getState())
+                    .zipCode(company.getZipCode())
+                    .lat(company.getLat())
+                    .lng(company.getLng())
+                    .payment(company.isPayment())
+                    .residentialCollection(company.isResidentialCollection())
+                    .categories(categoryDTOs)
+                    .build();
+        }).collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public Optional<Company> getById(Long id) {
+        return companyRepository.findById(id);
     }
 
     @Override
@@ -101,7 +128,8 @@ public class CompanyServiceImpl implements CompanyService {
         company.setPayment(companyDTO.isPayment());
         company.setResidentialCollection(companyDTO.isResidentialCollection());
 
-        List<Category> categories = categoryRepository.findAllById(companyDTO.getCategoryIds());
+        List<Category> categoryList = categoryRepository.findAllById(companyDTO.getCategoryIds());
+        Set<Category> categories = new HashSet<>(categoryList);
 
         if (categories.isEmpty()) {
             throw new BusinessRuleException("Categoria não encontrada");
@@ -112,59 +140,59 @@ public class CompanyServiceImpl implements CompanyService {
         companyRepository.save(company);
     }
 
-    public double toRad(double value) {
-        return (value * Math.PI) / 180; // Converts numeric degrees to radians
-    }
+    // public double toRad(double value) {
+    //     return (value * Math.PI) / 180; // Converts numeric degrees to radians
+    // }
 
-    private double calculateDistance(String destinationZipcode, String originZipcode) {
-        // Retrieve the latitude and longitude coordinates for the given zip codes
-        double[] destination = getCoordinatesForZipCode(destinationZipcode);
-        double[] origin = getCoordinatesForZipCode(originZipcode);
+    // private double calculateDistance(String destinationZipcode, String originZipcode) {
+    //     Retrieve the latitude and longitude coordinates for the given zip codes
+    //     double[] destination = getCoordinatesForZipCode(destinationZipcode);
+    //     double[] origin = getCoordinatesForZipCode(originZipcode);
     
-        double R = 6371; // Radius of the earth in km
-        double dLat = toRad(destination[0] - origin[0]);
-        double dLon = toRad(destination[1] - origin[1]);
-        double lat1 = toRad(origin[0]);
-        double lat2 = toRad(destination[0]);
+    //     double R = 6371; // Radius of the earth in km
+    //     double dLat = toRad(destination[0] - origin[0]);
+    //     double dLon = toRad(destination[1] - origin[1]);
+    //     double lat1 = toRad(origin[0]);
+    //     double lat2 = toRad(destination[0]);
     
-        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        double d = R * c;
-        return d;
-    }
+    //     double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
+    //     double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    //     double d = R * c;
+    //     return d;
+    // }
 
-    private double[] getCoordinatesForZipCode(String zipcode) {
-        try {
-            String apiUrl = "https://maps.googleapis.com/maps/api/geocode/json";
-            String encodedZipcode = URLEncoder.encode(zipcode, StandardCharsets.UTF_8);
-            URI uri;
-            try {
-                uri = new URI(apiUrl + "?address=" + encodedZipcode + "&key=AIzaSyCDVRS2y-aVIXVmiyXnrCfg9ZiDBEiHQJM");
-            } catch (URISyntaxException e) {
-                throw new ApiErrors("Invalid URI syntax");
-            }
+    // private double[] getCoordinatesForZipCode(String zipcode) {
+    //     try {
+    //         String apiUrl = "https://maps.googleapis.com/maps/api/geocode/json";
+    //         String encodedZipcode = URLEncoder.encode(zipcode, StandardCharsets.UTF_8);
+    //         URI uri;
+    //         try {
+    //             uri = new URI(apiUrl + "?address=" + encodedZipcode + "&key=AIzaSyCDVRS2y-aVIXVmiyXnrCfg9ZiDBEiHQJM");
+    //         } catch (URISyntaxException e) {
+    //             throw new ApiErrors("Invalid URI syntax");
+    //         }
     
-            HttpURLConnection conn = (HttpURLConnection) uri.toURL().openConnection();
-            conn.setRequestMethod("GET");
+    //         HttpURLConnection conn = (HttpURLConnection) uri.toURL().openConnection();
+    //         conn.setRequestMethod("GET");
     
-            BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            StringBuilder response = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                response.append(line);
-            }
-            reader.close();
+    //         BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+    //         StringBuilder response = new StringBuilder();
+    //         String line;
+    //         while ((line = reader.readLine()) != null) {
+    //             response.append(line);
+    //         }
+    //         reader.close();
     
-            JsonObject json = JsonParser.parseString(response.toString()).getAsJsonObject();
-            JsonObject location = json.getAsJsonArray("results").get(0).getAsJsonObject().getAsJsonObject("geometry").getAsJsonObject("location");
-            double lat = location.get("lat").getAsDouble();
-            double lng = location.get("lng").getAsDouble();
+    //         JsonObject json = JsonParser.parseString(response.toString()).getAsJsonObject();
+    //         JsonObject location = json.getAsJsonArray("results").get(0).getAsJsonObject().getAsJsonObject("geometry").getAsJsonObject("location");
+    //         double lat = location.get("lat").getAsDouble();
+    //         double lng = location.get("lng").getAsDouble();
     
-            return new double[]{lat, lng};
-        } catch (IOException e) {
-            throw new ApiErrors("Error occurred while making HTTP request");
-        }
-    }
+    //         return new double[]{lat, lng};
+    //     } catch (IOException e) {
+    //         throw new ApiErrors("Error occurred while making HTTP request");
+    //     }
+    // }
 
 //     public List<CompanyDTO> searchCompanies(SearchDataDTO searchData) {
 //         String zipcode = searchData.getZipCode();
